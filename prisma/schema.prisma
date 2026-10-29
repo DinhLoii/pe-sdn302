@@ -1,0 +1,11 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// Add models from the actual exam, then create and commit the first migration.
+// No trial-specific models or tables are created by this starter.
