@@ -875,3 +875,36 @@ body {
     font-size: 13px;
   }
 }
+
+/* Header sign-in action: outlined button, paired with the solid Register action. */
+.nav-actions [data-testid="btn-login"] {
+  justify-content: center;
+  min-height: 40px;
+  padding: 9px 17px;
+  border: 1px solid #c7cfc3;
+  border-radius: 9px;
+  background: #fff;
+  color: #243c33;
+  text-decoration: none;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+.nav-actions [data-testid="btn-login"]:hover {
+  background: #f0f5ea;
+  border-color: #819975;
+  box-shadow: 0 2px 6px #243c330c;
+}
+.nav-actions [data-testid="btn-login"][aria-current="page"] {
+  background: #edf3e7;
+  border-color: #819975;
+}
+@media (max-width: 480px) {
+  .nav-actions [data-testid="btn-login"] {
+    padding: 9px 11px;
+  }
+  .nav-actions .action-link.small {
+    gap: 8px;
+  }
+}

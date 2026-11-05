@@ -32,3 +32,11 @@ Vercel project: pe-sdn302 under dinhvanloi000-1347s-projects. DATABASE_URL, DIRE
 Expense models, expense APIs, expense Context, list, forms, filters, summary, and final submission document are not implemented. /expenses currently confirms authentication only. This is a preparation milestone, not the full trial solution.
 
 All project source and verification files belong in this project folder. npm run submission -- -StudentCode QE190167 packages committed source after the final work is complete.
+
+## User design preferences
+
+For a new exam topic or application theme, research relevant existing websites before implementation. Present the reference links and previews, proposed color palette with hex values, layout, typography, icons and key UI/UX decisions to the user. Wait for the user's explicit approval of the design direction before implementing it. Do not assume an earlier design approval applies to a new topic.
+
+Keep the header Login action as a rounded outlined button, paired with a solid Register action, following the user-provided Lovable screenshot. This reference concerns the Login button, not an instruction to copy the full Lovable homepage.
+
+All generated source, helpers and deliverables must stay inside E:/FPTU/Term07/SDN302/pe-sdn302. Preserve the user's customized QE190167/QE190167.docx; use it as the submission template and only revise it when requested.
