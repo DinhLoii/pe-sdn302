@@ -1,13 +1,20 @@
 "use client";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useState } from "react";
-import { ArrowUpRight, LogOut, Wallet } from "lucide-react";
+import {
+  ArrowUpRight,
+  LogOut,
+  Wallet,
+  LoaderCircle,
+  LayoutDashboard,
+} from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
 export function Header() {
   const { user, clear } = useAuth();
   const router = useRouter();
+  const pathname = usePathname();
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState("");
   async function logout() {
@@ -44,8 +51,9 @@ export function Header() {
                 data-testid="link-expenses"
                 href="/expenses"
                 className="nav-link"
+                aria-current={pathname === "/expenses" ? "page" : undefined}
               >
-                My expenses
+                <LayoutDashboard size={15} aria-hidden="true" /> My expenses
               </Link>
               <Button
                 data-testid="btn-logout"
@@ -53,19 +61,29 @@ export function Header() {
                 disabled={busy}
                 onClick={logout}
               >
-                <LogOut size={15} />
+                {busy ? (
+                  <LoaderCircle size={15} className="spin" aria-hidden="true" />
+                ) : (
+                  <LogOut size={15} aria-hidden="true" />
+                )}
                 {busy ? "Signing out…" : "Logout"}
               </Button>
             </>
           ) : (
             <>
-              <Link className="nav-link" href="/login" data-testid="btn-login">
+              <Link
+                className="nav-link"
+                href="/login"
+                data-testid="btn-login"
+                aria-current={pathname === "/login" ? "page" : undefined}
+              >
                 Login
               </Link>
               <Link
                 className="action-link small"
                 href="/register"
                 data-testid="btn-register"
+                aria-current={pathname === "/register" ? "page" : undefined}
               >
                 Register
                 <ArrowUpRight size={15} />

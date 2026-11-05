@@ -6,7 +6,12 @@ export default async function Expenses() {
   const user = await currentUser();
   if (!user) redirect("/login");
   return (
-    <main className="shell workspace" data-testid="expenses-page">
+    <main
+      id="main-content"
+      tabIndex={-1}
+      className="shell workspace"
+      data-testid="expenses-page"
+    >
       <p className="eyebrow">YOUR PERSONAL SPACE</p>
       <h1>You’re right where you belong.</h1>
       <p className="intro">Signed in as {user.email}</p>

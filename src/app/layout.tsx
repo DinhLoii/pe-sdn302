@@ -15,6 +15,9 @@ export default async function RootLayout({
     <html lang="en">
       <body>
         <AuthProvider initialUser={user}>
+          <a className="skip-link" href="#main-content">
+            Skip to content
+          </a>
           <Header />
           {children}
           <footer className="shell footer">

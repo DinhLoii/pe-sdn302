@@ -8,6 +8,14 @@ import {
   Eye,
   EyeOff,
   ShieldCheck,
+  Mail,
+  LockKeyhole,
+  UserRoundPlus,
+  LogIn,
+  LoaderCircle,
+  FlaskConical,
+  CircleCheck,
+  Circle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -25,6 +33,7 @@ export function AuthForm({ register = false }: { register?: boolean }) {
   const [submitted, setSubmitted] = useState(false);
   const [busy, setBusy] = useState(false);
   const [show, setShow] = useState(false);
+  const [capsLock, setCapsLock] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const errors = submitted ? validateAuth(values, register) : {};
@@ -39,13 +48,27 @@ export function AuthForm({ register = false }: { register?: boolean }) {
     setSubmitted(true);
     setError("");
     setSuccess(false);
-    if (Object.keys(validateAuth(values, register)).length) return;
+    const invalid = validateAuth(values, register);
+    const firstField = Object.keys(invalid)[0];
+    if (firstField) {
+      document
+        .getElementById(
+          prefix +
+            "-" +
+            (firstField === "confirmPassword"
+              ? "confirm-password"
+              : firstField),
+        )
+        ?.focus();
+      return;
+    }
     setBusy(true);
     try {
       const response = await fetch("/api/auth/" + prefix, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(values),
+        signal: AbortSignal.timeout(20000),
       });
       const data = await response.json();
       if (!response.ok) {
@@ -65,7 +88,7 @@ export function AuthForm({ register = false }: { register?: boolean }) {
     }
   }
   return (
-    <main className="shell auth-layout">
+    <main id="main-content" tabIndex={-1} className="shell auth-layout">
       <aside className="auth-story">
         <p className="eyebrow">A LITTLE CLARITY, EVERY DAY</p>
         <h1>
@@ -100,6 +123,9 @@ export function AuthForm({ register = false }: { register?: boolean }) {
         </span>
       </aside>
       <section className="auth-panel" aria-labelledby="auth-heading">
+        <div className="auth-heading-icon" aria-hidden="true">
+          {register ? <UserRoundPlus size={23} /> : <LogIn size={23} />}
+        </div>
         <p className="eyebrow">
           {register ? "LET’S GET STARTED" : "GOOD TO SEE YOU AGAIN"}
         </p>
@@ -111,7 +137,12 @@ export function AuthForm({ register = false }: { register?: boolean }) {
             ? "One simple step towards a clearer view."
             : "Sign in to pick up where you left off."}
         </p>
-        <form noValidate onSubmit={submit} data-testid={prefix + "-form"}>
+        <form
+          noValidate
+          onSubmit={submit}
+          data-testid={prefix + "-form"}
+          aria-busy={busy}
+        >
           {(
             [
               "email",
@@ -134,7 +165,23 @@ export function AuthForm({ register = false }: { register?: boolean }) {
                       : "Confirm password"}
                 </Label>
                 <div className="input-wrap">
+                  <span className="input-icon" aria-hidden="true">
+                    {field === "email" ? (
+                      <Mail size={17} />
+                    ) : (
+                      <LockKeyhole size={17} />
+                    )}
+                  </span>
                   <Input
+                    name={field}
+                    spellCheck={false}
+                    autoCapitalize="none"
+                    inputMode={field === "email" ? "email" : undefined}
+                    onKeyUp={(e) => {
+                      if (field !== "email")
+                        setCapsLock(e.getModifierState("CapsLock"));
+                    }}
+                    onBlur={() => setCapsLock(false)}
                     id={id}
                     data-testid={id}
                     type={
@@ -167,12 +214,38 @@ export function AuthForm({ register = false }: { register?: boolean }) {
                       type="button"
                       className="show-password"
                       aria-label={show ? "Hide password" : "Show password"}
+                      aria-pressed={show}
+                      disabled={busy}
                       onClick={() => setShow((v) => !v)}
                     >
                       {show ? <EyeOff size={18} /> : <Eye size={18} />}
                     </button>
                   )}
                 </div>
+                {field === "password" && capsLock && (
+                  <p className="field-hint" role="status">
+                    Caps Lock is on.
+                  </p>
+                )}
+                {register && field === "password" && (
+                  <div
+                    className="password-guide"
+                    aria-label="Password requirements"
+                  >
+                    <span
+                      className={
+                        values.password.length >= 6 ? "requirement-met" : ""
+                      }
+                    >
+                      {values.password.length >= 6 ? (
+                        <CircleCheck size={13} />
+                      ) : (
+                        <Circle size={13} />
+                      )}
+                      At least 6 characters
+                    </span>
+                  </div>
+                )}
                 {message && (
                   <p
                     id={id + "-error"}
@@ -216,7 +289,11 @@ export function AuthForm({ register = false }: { register?: boolean }) {
               : register
                 ? "Create account"
                 : "Login"}
-            <ArrowRight size={17} />
+            {busy ? (
+              <LoaderCircle className="spin" size={17} aria-hidden="true" />
+            ) : (
+              <ArrowRight size={17} aria-hidden="true" />
+            )}
           </Button>
         </form>
         <p className="switch-auth">
@@ -243,9 +320,11 @@ export function AuthForm({ register = false }: { register?: boolean }) {
                 });
                 setError("");
                 setSubmitted(false);
+                setSuccess(false);
+                document.getElementById("login-submit")?.focus();
               }}
             >
-              Fill demo account
+              <FlaskConical size={16} aria-hidden="true" /> Fill demo account
             </Button>
             <small>grader.qe190167@example.com · Test1234!</small>
           </div>

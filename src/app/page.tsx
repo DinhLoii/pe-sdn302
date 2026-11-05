@@ -8,7 +8,7 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 export default function Home() {
   return (
-    <main className="shell home">
+    <main id="main-content" tabIndex={-1} className="shell home">
       <section className="hero">
         <div>
           <p className="eyebrow">YOUR MONEY. A CLEARER PICTURE.</p>
