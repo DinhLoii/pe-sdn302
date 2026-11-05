@@ -40,3 +40,11 @@ For a new exam topic or application theme, research relevant existing websites b
 Keep the header Login action as a rounded outlined button, paired with a solid Register action, following the user-provided Lovable screenshot. This reference concerns the Login button, not an instruction to copy the full Lovable homepage.
 
 All generated source, helpers and deliverables must stay inside E:/FPTU/Term07/SDN302/pe-sdn302. Preserve the user's customized QE190167/QE190167.docx; use it as the submission template and only revise it when requested.
+
+## Exam timing and implementation priorities
+
+The user has a 70-minute practical exam window. Prioritize exact required behavior, API contracts, validation messages, ownership/security rules, routes and data-testid hooks. Validate the required workflows, deploy and prepare matching final submission files before spending time on bonus features. Do not promise a perfect score.
+
+Add useful, low-risk bonuses only when the required features are stable and time permits. Prefer responsive layouts, accessible controls, clear loading/error states and convenient demo-account entry. Bonuses must not alter required texts, JSON contracts, test hooks, environment-variable limits or submission rules. AI integration is not requested and must not be added without a new explicit request and compatibility review.
+
+For a new topic, keep design research and the reference/color/UI proposal concise to suit the time limit, but still wait for the user's approval before implementation. Apply these priorities within the assessment's permitted use of prepared source and assistance.
