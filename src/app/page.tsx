@@ -1,9 +1,11 @@
 import Link from "next/link";
 import {
+  BookOpen,
   ArrowRight,
-  Bookmark,
-  ChartNoAxesCombined,
+  Clock3,
   Layers3,
+  Star,
+  Leaf,
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 export default function Home() {
@@ -11,67 +13,84 @@ export default function Home() {
     <main id="main-content" tabIndex={-1} className="shell home">
       <section className="hero">
         <div>
-          <p className="eyebrow">YOUR MONEY. A CLEARER PICTURE.</p>
-          <h1 data-testid="home-title">ExpenseTrail</h1>
+          <p className="eyebrow">
+            <Leaf size={14} /> MAKE ROOM FOR A GOOD BOOK
+          </p>
+          <h1 data-testid="home-title">ReadLog</h1>
           <p className="hero-title">
-            Small expenses.
+            A few pages.
             <br />
-            <em>More perspective.</em>
+            <em>A world of possibility.</em>
           </p>
           <p className="intro">
-            From your morning coffee to the monthly bills, give every expense a
-            place. Less guessing, more knowing where your money goes.
+            A quiet place for your reading life. Log every session, save the
+            ones you love, and watch the minutes become a habit.
           </p>
           <div className="hero-actions">
             <Link className="action-link" href="/register">
-              Create your account <ArrowRight size={18} />
+              Start your reading journal
+              <ArrowRight size={18} />
             </Link>
-            <Link href="/login" className="quiet-link">
-              Already have an account?
+            <Link className="quiet-link" href="/login">
+              Already a reader? Login
             </Link>
           </div>
-          <p className="fine-print">Your own space. Your own spending story.</p>
+          <p className="fine-print">
+            Your books. Your pace. Your personal space.
+          </p>
         </div>
-        <aside className="preview" aria-label="Illustrative spending overview">
-          <div className="preview-top">
-            <span>THE BIG PICTURE</span>
-            <span className="preview-badge">Illustration</span>
+        <aside
+          className="reading-illustration"
+          aria-label="Illustration of a personal reading journal"
+        >
+          <div className="illustration-top">
+            <BookOpen size={19} />
+            <span>THE READING LIFE</span>
+            <span className="illustration-label">Illustration</span>
           </div>
-          <p className="preview-label">A little more clarity.</p>
-          <p className="preview-number">Every day.</p>
-          <div className="bars" aria-hidden="true">
-            {[35, 58, 42, 75, 55, 90, 68].map((h, i) => (
-              <span key={i} style={{ height: h + "%" }} />
-            ))}
+          <div className="book-art" aria-hidden="true">
+            <div className="book-cover">
+              <span>
+                ONE
+                <br />
+                MORE
+                <br />
+                <em>CHAPTER.</em>
+              </span>
+              <small>A LITTLE TIME WELL SPENT</small>
+            </div>
+            <span className="bookmark-ribbon" />
           </div>
-          <div className="preview-bottom">
-            <span>Track the little things.</span>
-            <span>See the whole picture ↗</span>
+          <div className="illustration-foot">
+            <span>
+              <Clock3 size={15} />A little time for yourself
+            </span>
+            <Star size={17} />
           </div>
         </aside>
       </section>
       <section className="features" aria-label="Features">
         {[
           {
-            icon: Bookmark,
-            title: "Track spending",
-            text: "Keep the details together, so nothing gets lost along the way.",
+            Icon: BookOpen,
+            title: "Log every session",
+            text: "Keep a record of the books, minutes and thoughts that make up your reading life.",
           },
           {
-            icon: Layers3,
-            title: "Sort into categories",
-            text: "A natural home for groceries, journeys and everything in between.",
+            Icon: Layers3,
+            title: "Sort by genre",
+            text: "From imagined worlds to true stories, give every reading session its own place.",
           },
           {
-            icon: ChartNoAxesCombined,
-            title: "See where it goes",
-            text: "Turn everyday entries into a clearer view of your habits.",
+            Icon: Clock3,
+            title: "See minutes read",
+            text: "See your time add up, discover your reading mix and celebrate small steps.",
           },
-        ].map(({ icon: Icon, title, text }, i) => (
+        ].map(({ Icon, title, text }, i) => (
           <Card className="feature" key={title}>
             <CardContent>
               <span className="feature-number">0{i + 1}</span>
-              <Icon size={23} />
+              <Icon size={24} />
               <h2>{title}</h2>
               <p>{text}</p>
             </CardContent>

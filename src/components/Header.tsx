@@ -5,7 +5,7 @@ import { useState } from "react";
 import {
   ArrowUpRight,
   LogOut,
-  Wallet,
+  BookOpen,
   LoaderCircle,
   LayoutDashboard,
 } from "lucide-react";
@@ -37,9 +37,9 @@ export function Header() {
       <nav className="shell nav" aria-label="Main navigation">
         <Link href="/" className="brand">
           <span className="brand-icon">
-            <Wallet size={20} />
+            <BookOpen size={20} />
           </span>
-          ExpenseTrail<span className="brand-dot">.</span>
+          ReadLog<span className="brand-dot">.</span>
         </Link>
         <div className="nav-actions">
           {user ? (
@@ -48,12 +48,12 @@ export function Header() {
                 {user.email}
               </span>
               <Link
-                data-testid="link-expenses"
-                href="/expenses"
+                data-testid="link-reading-logs"
+                href="/reading-logs"
                 className="nav-link"
-                aria-current={pathname === "/expenses" ? "page" : undefined}
+                aria-current={pathname === "/reading-logs" ? "page" : undefined}
               >
-                <LayoutDashboard size={15} aria-hidden="true" /> My expenses
+                <LayoutDashboard size={15} aria-hidden="true" /> Reading journal
               </Link>
               <Button
                 data-testid="btn-logout"

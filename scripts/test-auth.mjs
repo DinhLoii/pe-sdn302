@@ -21,7 +21,7 @@ async function request(path, body, cookie) {
   };
 }
 assert.equal((await request("/api/auth/me")).status, 401);
-assert.equal((await request("/expenses")).location, "/login");
+assert.equal((await request("/reading-logs")).location, "/login");
 for (const [body, message] of [
   [{}, "Email is required"],
   [{ email: "wrong" }, "Please enter a valid email address"],
@@ -76,7 +76,7 @@ assert.equal(
   (await request("/api/auth/me", undefined, cookie)).data.email,
   credentials.email,
 );
-assert.equal((await request("/expenses", undefined, cookie)).status, 200);
+assert.equal((await request("/reading-logs", undefined, cookie)).status, 200);
 assert.equal(
   (await request("/api/auth/me", undefined, "session_token=invalid")).status,
   401,

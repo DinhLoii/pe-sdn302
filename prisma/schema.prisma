@@ -10,4 +10,19 @@ model User {
  email String @unique
  passwordHash String
  createdAt DateTime @default(now())
+ readingLogs ReadingLog[]
+}
+model ReadingLog {
+ id String @id @default(cuid())
+ userId String
+ bookTitle String @db.VarChar(80)
+ minutesRead Int
+ genre String
+ note String @default("")
+ favorite Boolean @default(false)
+ readOn String @db.VarChar(10)
+ createdAt DateTime @default(now())
+ user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+ @@unique([userId, bookTitle, minutesRead, readOn])
+ @@index([userId, readOn])
 }

@@ -2,10 +2,12 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { currentUser } from "@/lib/auth";
 import { AuthProvider } from "@/context/AuthContext";
+import { ReadingProvider } from "@/context/ReadingContext";
 import { Header } from "@/components/Header";
 export const metadata: Metadata = {
-  title: "ExpenseTrail — A little clarity, every day",
-  description: "A calmer place to keep track of your personal spending.",
+  title: "ReadLog — A little clarity, every day",
+  description:
+    "A personal journal for your reading sessions, favorites and reading habits.",
 };
 export default async function RootLayout({
   children,
@@ -19,10 +21,10 @@ export default async function RootLayout({
             Skip to content
           </a>
           <Header />
-          {children}
+          <ReadingProvider>{children}</ReadingProvider>
           <footer className="shell footer">
-            <span>ExpenseTrail.</span>
-            <span>A little clarity, every day.</span>
+            <span>ReadLog.</span>
+            <span>One chapter at a time.</span>
           </footer>
         </AuthProvider>
       </body>

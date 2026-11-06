@@ -1,50 +1,63 @@
-# ExpenseTrail — SDN302 practice
+# ReadLog — SDN302 practical application
 
-Next.js App Router, TypeScript, Tailwind, ShadCN UI, Prisma 7 and Supabase PostgreSQL.
+A private reading-session journal built with Next.js App Router, TypeScript, Tailwind CSS, ShadCN UI and Prisma 7 on Supabase PostgreSQL.
 
-## Implemented
+## Features
 
-- Home page and responsive registration/login forms with the trial test hooks and exact field validation messages.
-- POST /api/auth/register, POST /api/auth/login, POST /api/auth/logout, GET /api/auth/me.
-- Bcrypt password hashes, JWT sessions in the HttpOnly session_token cookie, server-protected /expenses entry page.
-- Demo account: grader.qe190167@example.com / Test1234! (shared testing only). The login page can fill these credentials with one click.
-- User migration applied through Prisma. The account is created through the app Register API, never a database seed.
+- Custom email/password registration and JWT authentication in the HttpOnly session_token cookie.
+- Owner-scoped reading-session list, creation, partial editing, favorites and deletion.
+- Combined genre, favorites and case-insensitive title/note search filters.
+- Live summary: count, favorite count, total minutes and ordered genre breakdown.
+- Shared React Context with canceled stale requests and cleared state on account changes/logout.
+- Responsive 375px / 1280px layouts, illustrated book covers, keyboard focus, reduced-motion support, loading and error states.
+- Bonus: inline title/minutes editing and export of currently displayed sessions to CSV.
 
-## Development
+## Setup
 
-Use Node 22.x. Run npm ci, configure DATABASE_URL, DIRECT_URL and AUTH_SECRET in private .env, then npm run dev.
-DATABASE_URL uses the Supabase transaction pooler (6543); DIRECT_URL uses its session pooler (5432) for migrations. AUTH_SECRET is a random secret of at least 32 characters. Never commit real values.
+Use Node.js 22.x. Run npm install, configure the three private variables from .env.example in .env, then npm run db:deploy and npm run dev.
 
-npm run build runs prisma generate before next build. npm run lint checks source. npm run db:deploy applies committed migrations without a reset. npm run db:check checks both connections without modifying data.
+DATABASE_URL is used by the PostgreSQL runtime adapter (transaction pooler, 6543). DIRECT_URL is used by prisma.config.ts for migrations (session pooler, 5432). AUTH_SECRET signs HS256 JWTs. Do not commit real values. No Supabase Auth, public Supabase client key, external image service or extra environment variable is required.
+
+npm run build runs prisma generate && next build. The User and ReadingLog migrations are committed under prisma/migrations and applied to the live database.
 
 ## Verification
 
-Start a production build locally on port 3100, then run node --env-file=.env scripts/test-auth.mjs. The integration check covers validation, duplicate accounts, login, cookie flags, protected routing, invalid and expired JWTs and logout. It registers the demo account if absent. TEST_BASE_URL can target the production URL.
+npm run lint
+npm run build
 
-## Deployment
+Start the production server locally on port 3100, then run:
 
-GitHub: https://github.com/DinhLoii/pe-sdn302 (main)
+node --env-file=.env scripts/test-auth.mjs
+node scripts/test-reading.mjs
+
+TEST_BASE_URL can target production. Reading tests use two dedicated QA accounts and clean up only their own test sessions. The authentication test registers the grader account through the app API if it is absent. Never seed grader credentials directly into the database.
+
+## Deployment and grader account
+
+Repository: https://github.com/DinhLoii/pe-sdn302
 Production: https://pe-sdn302.vercel.app
-Vercel project: pe-sdn302 under dinhvanloi000-1347s-projects. DATABASE_URL, DIRECT_URL and AUTH_SECRET must be configured in Production. Git pushes deploy automatically.
+Production branch: main
+Vercel account/team: dinhvanloi000-1347s-projects
+Project: pe-sdn302
 
-## Remaining scope
+Email: grader.qe190167@example.com
+Password: Test1234!
 
-Expense models, expense APIs, expense Context, list, forms, filters, summary, and final submission document are not implemented. /expenses currently confirms authentication only. This is a preparation milestone, not the full trial solution.
+Use Fill demo account on /login, then Login. This account is shared for grading/sample data only. Sessions are protected on /reading-logs and /api/reading-logs; /expenses is a legacy redirect.
 
-All project source and verification files belong in this project folder. npm run submission -- -StudentCode QE190167 packages committed source after the final work is complete.
+## API
 
-## User design preferences
+POST /api/auth/register, POST /api/auth/login, POST /api/auth/logout, GET /api/auth/me.
+GET/POST /api/reading-logs, GET /api/reading-logs/summary, PATCH/DELETE /api/reading-logs/:id.
 
-For a new exam topic or application theme, research relevant existing websites before implementation. Present the reference links and previews, proposed color palette with hex values, layout, typography, icons and key UI/UX decisions to the user. Wait for the user's explicit approval of the design direction before implementing it. Do not assume an earlier design approval applies to a new topic.
+Reading-log API responses use the exact bookTitle, minutesRead, genre, note, favorite, readOn and createdAt names in the specification. Ownership comes from the verified cookie, not user input. Database uniqueness prevents duplicate bookTitle/minutesRead/readOn combinations for each user.
 
-Keep the header Login action as a rounded outlined button, paired with a solid Register action, following the user-provided Lovable screenshot. This reference concerns the Login button, not an instruction to copy the full Lovable homepage.
+## Submission
 
-All generated source, helpers and deliverables must stay inside E:/FPTU/Term07/SDN302/pe-sdn302. Preserve the user's customized QE190167/QE190167.docx; use it as the submission template and only revise it when requested.
+QE190167/QE190167.docx and QE190167/QE190167.zip are local output files. ZIP source is exported from the final committed code with package.json at its root. Real environment files, generated Prisma client, node_modules, .next and .git are excluded. Generated client is recreated by the build script.
 
-## Exam timing and implementation priorities
+## Design and workspace preferences
 
-The user has a 70-minute practical exam window. Prioritize exact required behavior, API contracts, validation messages, ownership/security rules, routes and data-testid hooks. Validate the required workflows, deploy and prepare matching final submission files before spending time on bonus features. Do not promise a perfect score.
+All project files and helpers stay inside E:/FPTU/Term07/SDN302/pe-sdn302. A new topic requires a brief reference/color/layout proposal and user approval before implementation. ReadLog uses the approved warm-paper and forest-green reading-journal design. Keep Login as a rounded outlined action beside the solid Register action.
 
-Add useful, low-risk bonuses only when the required features are stable and time permits. Prefer responsive layouts, accessible controls, clear loading/error states and convenient demo-account entry. Bonuses must not alter required texts, JSON contracts, test hooks, environment-variable limits or submission rules. AI integration is not requested and must not be added without a new explicit request and compatibility review.
-
-For a new topic, keep design research and the reference/color/UI proposal concise to suit the time limit, but still wait for the user's approval before implementation. Apply these priorities within the assessment's permitted use of prepared source and assistance.
+The practical assessment window is 70 minutes. Required API contracts, security, validation, test hooks, deployment and packaging take priority over bonus features. PASS means verified, not a score guarantee. AI integration is not part of this application.

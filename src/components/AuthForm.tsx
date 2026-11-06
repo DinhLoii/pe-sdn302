@@ -78,7 +78,7 @@ export function AuthForm({ register = false }: { register?: boolean }) {
       if (register) setSuccess(true);
       else {
         setUser(data);
-        router.replace("/expenses");
+        router.replace("/reading-logs");
         router.refresh();
       }
     } catch {
@@ -90,7 +90,7 @@ export function AuthForm({ register = false }: { register?: boolean }) {
   return (
     <main id="main-content" tabIndex={-1} className="shell auth-layout">
       <aside className="auth-story">
-        <p className="eyebrow">A LITTLE CLARITY, EVERY DAY</p>
+        <p className="eyebrow">A FEW PAGES, EVERY DAY</p>
         <h1>
           {register ? (
             <>
@@ -100,7 +100,7 @@ export function AuthForm({ register = false }: { register?: boolean }) {
             </>
           ) : (
             <>
-              Your spending story,
+              Your reading story,
               <br />
               <em>all in one place.</em>
             </>
@@ -115,7 +115,7 @@ export function AuthForm({ register = false }: { register?: boolean }) {
           <ShieldCheck size={23} />
           <div>
             <strong>A space that belongs to you</strong>
-            <p>Your expenses stay with your account.</p>
+            <p>Your reading journal stays with your account.</p>
           </div>
         </div>
         <span className="story-mark" aria-hidden="true">
@@ -297,7 +297,7 @@ export function AuthForm({ register = false }: { register?: boolean }) {
           </Button>
         </form>
         <p className="switch-auth">
-          {register ? "Already have an account?" : "New to ExpenseTrail?"}{" "}
+          {register ? "Already have an account?" : "New to ReadLog?"}{" "}
           <Link href={register ? "/login" : "/register"}>
             {register ? "Login" : "Create an account"}
           </Link>
