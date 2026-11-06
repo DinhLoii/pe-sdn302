@@ -15,6 +15,8 @@ import {
   X,
   Check,
   Download,
+  ArrowUpRight,
+  Leaf,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -561,6 +563,49 @@ function ExportButton() {
     </Button>
   );
 }
+function ShelfPreview() {
+  const { sessions } = useReading();
+  const books = sessions
+    .filter(
+      (session, index, all) =>
+        all.findIndex((item) => item.bookTitle === session.bookTitle) === index,
+    )
+    .slice(0, 3);
+  if (!books.length) return null;
+  return (
+    <div className="journal-shelf">
+      <div className="shelf-strip-label">
+        <BookOpen size={16} />
+        <span>ON YOUR SHELF</span>
+        <small>From the current view</small>
+      </div>
+      <div className="journal-shelf-books">
+        {books.map((book) => (
+          <div className="journal-shelf-book" key={book.id}>
+            <BookCover title={book.bookTitle} genre={book.genre} />
+            <div>
+              <span className="genre-badge">{book.genre}</span>
+              <strong>{book.bookTitle}</strong>
+              <span className="shelf-book-time">
+                <Clock3 size={12} />
+                {book.minutesRead} min reading
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+function ViewCount() {
+  const { summary, genre, favorite, query } = useReading();
+  return (
+    <span className="view-count">
+      {summary.count} sessions
+      {genre || favorite || query.trim() ? " · filtered" : " · all genres"}
+    </span>
+  );
+}
 export function ReadingDashboard() {
   return (
     <main
@@ -569,6 +614,16 @@ export function ReadingDashboard() {
       className="shell reading-page"
       data-testid="reading-logs-page"
     >
+      <div className="journal-breadcrumb">
+        <BookOpen size={13} />
+        <span>My library</span>
+        <span>/</span>
+        <strong>Reading journal</strong>
+        <span className="private-label">
+          <Leaf size={12} />
+          Your personal space
+        </span>
+      </div>
       <div className="journal-heading">
         <div>
           <p className="eyebrow">A FEW PAGES, EVERY DAY</p>
@@ -582,6 +637,19 @@ export function ReadingDashboard() {
         <ExportButton />
       </div>
       <Summary />
+      <div className="journal-note">
+        <span className="note-symbol">
+          <BookOpen size={18} />
+        </span>
+        <div>
+          <strong>Make a little room for reading.</strong>
+          <span>Every session is a small step. Keep the story going.</span>
+        </div>
+        <a href="#input-book-title" className="journal-add-link">
+          Log a session
+          <ArrowUpRight size={15} />
+        </a>
+      </div>
       <div className="journal-grid">
         <aside className="journal-sidebar">
           <ReadingForm />
@@ -589,9 +657,13 @@ export function ReadingDashboard() {
         </aside>
         <section className="journal-main" aria-label="Reading sessions">
           <div className="list-heading">
-            <h2>All your chapters</h2>
-            <span className="small-text muted">A session at a time</span>
+            <div>
+              <p className="collection-eyebrow">YOUR PERSONAL COLLECTION</p>
+              <h2>Reading sessions</h2>
+            </div>
+            <ViewCount />
           </div>
+          <ShelfPreview />
           <Filters />
           <SessionList />
         </section>
