@@ -50,7 +50,7 @@ export function Header() {
               <Link
                 data-testid="link-reading-logs"
                 href="/reading-logs"
-                className="nav-link"
+                className="nav-link journal-nav-button"
                 aria-current={pathname === "/reading-logs" ? "page" : undefined}
               >
                 <LayoutDashboard size={15} aria-hidden="true" /> Reading journal
